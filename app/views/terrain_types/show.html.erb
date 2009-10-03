@@ -1,0 +1,11 @@
+<p>
+  <b>Name:</b>
+  <%=h @terrain_type.name %>
+  <div>
+    <%= image_tag @terrain_type.image.url %>
+  </div>
+</p>
+
+
+<%= link_to 'Edit', edit_terrain_type_path(@terrain_type) %> |
+<%= link_to 'Back', terrain_types_path %>

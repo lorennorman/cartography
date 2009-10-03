@@ -1,0 +1,23 @@
+<h1>Editing terrain_type</h1>
+
+<% form_for(@terrain_type) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  
+  <p>
+    <%= image_tag @terrain_type.image.url %>
+    <br />
+    Images may not be changed once created.
+  </p>
+  
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @terrain_type %> |
+<%= link_to 'Back', terrain_types_path %>

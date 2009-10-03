@@ -37,5 +37,5 @@ var Level = function(level_data)
 var Tile = function(options)
 {
   // creates dom elements, gives them an appearance, puts them in certain places (BAD DESIGN!)
-  return $('<div class="tile" style="left:'+options['x']*50+'px;top:'+options['y']*50+'px;background-color:'+options['type']+'">&nbsp;</div>')
+  return $('<div class="tile" style="left:'+options['x']*100+'px;top:'+options['y']*100+'px;background-color:'+options['type']+'">&nbsp;</div>')
 };
