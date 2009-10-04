@@ -1,0 +1,28 @@
+<p>
+  <b>Name:</b>
+  <%=h @map.name %>
+</p>
+
+<p>
+  <b>Width:</b>
+  <%=h @map.width %>
+</p>
+
+<p>
+  <b>Height:</b>
+  <%=h @map.height %>
+</p>
+
+<p>
+  <b>Terrain:</b>
+  <%=h @map.terrain %>
+</p>
+
+<p>
+  <b>Published:</b>
+  <%=h @map.published %>
+</p>
+
+
+<%= link_to 'Edit', edit_map_path(@map) %> |
+<%= link_to 'Back', maps_path %>

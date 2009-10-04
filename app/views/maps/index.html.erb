@@ -1,0 +1,25 @@
+<h1>Listing maps</h1>
+
+<table>
+  <tr>
+    <th>Actions</th>
+    <th>Name</th>
+    <th>Dimensions</th>
+    <th>Snapshot</th>
+    <th>Published</th>
+  </tr>
+
+<% @maps.each do |map| %>
+  <tr>
+    <td><%= link_to 'Show', map %> <%= link_to 'Edit', edit_map_path(map) %></td>
+    <td><%=h map.name %></td>
+    <td><%=h map.dimensions %></td>
+    <td><%=h map.terrain %></td>
+    <td><%=h map.published %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New map', new_map_path %>
