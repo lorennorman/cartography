@@ -1,0 +1,65 @@
+<% content_for(:javascript) do %>
+  <%= javascript_include_tag "editor" %>
+  <script type="text/javascript">
+    var _terrain_manager;
+    var _map;
+    $(function() {
+      // Initialize our main objects with data from the database
+      _terrain_manager = new TerrainManager(<%= TerrainType.all_for_editor.to_json %>);
+      
+      _map = new Map(<%= map.terrain.to_json %>);
+      
+      // Build the terrain palette
+      var palette_element = $('#terrain_palette');
+
+      // TODO: build the editor brush panel from availabe terrain
+      // $.each(terrain_types, function() {
+      //   var terrain_brush = $('<div id='+this.id+' class="terrain_brush">');
+      //   terrain_brush.append("<p class='label'>"+this.name+"</p>");
+      //   terrain_brush.append("<img src='"+this.full_url+"'>");
+      //   
+      //   palette_element.append(terrain_brush);
+      // });
+      
+      // var terrain_brush_elements = $('.terrain_brush')
+      // 
+      // // Manage the selected brush
+      // var selected_brush;
+      // var selected_brush_label = $('#selected_brush_label');
+      // 
+      // function set_selected_brush(brush) {
+      //   selected_brush = brush;
+      //   selected_brush_label.text(selected_brush.name);
+      // }
+      // 
+      // set_selected_brush(terrain_types[0]);
+      // 
+      // terrain_brush_elements.click(function() {
+      //   set_selected_brush(_terrain_manager.get_terrain_by_id(this.id));
+      // });
+      
+      // Build the map
+      var map_element = $('.map');
+      $.each(_map.terrain(), function() {
+        var map_row = $("<div class='map_row'>");
+        $.each(this, function() {
+          map_row.append("<img class='tile' src='"+this.icon_url+"' alt='"+this.name+"'/>");
+        });
+        map_element.append(map_row);
+      });
+      
+      // Enable painting with the selected brush
+      $('.tile').click(function() {
+        this.setAttribute('src', selected_brush.icon_url);
+      });
+      
+    });
+  </script>
+<% end %>
+
+<div id="map_<%= map.id %>" class="grid_10 map"></div>
+
+<div id="terrain_palette" class="grid_3">
+  <h3>Selected Brush:</h3>
+  <p id="selected_brush_label"></p>
+</div>

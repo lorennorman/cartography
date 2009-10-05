@@ -3,4 +3,15 @@ class TerrainType < ActiveRecord::Base
   
   validates_presence_of :name
   validates_attachment_presence :image
+  
+  def self.all_for_editor
+    TerrainType.all(:order => :id).map do |terrain_type|
+      {
+        :id => terrain_type.id,
+        :name => terrain_type.name,
+        :icon_url => terrain_type.image.url(:icon),
+        :full_url => terrain_type.image.url(:full)
+      }
+    end
+  end
 end

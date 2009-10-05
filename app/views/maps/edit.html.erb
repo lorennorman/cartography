@@ -1,24 +1,19 @@
 <h1>Editing Map: <%= @map.name %></h1>
 
-  <p>
-    Dimensions: <%= @map.dimensions %>
-  </p>
-  
-  <h2>Live Terrain Editor</h2>
-  
-  <div>
-    <% @map.terrain_tiles.each do |terrain_column| %>
-      <% terrain_column.each do |terrain_type| %>
-        <%= image_tag terrain_type.image.url(:icon) %>
-      <% end %>
-      <br />
-    <% end %>
-  </div>
+<p>
+  Dimensions: <%= @map.dimensions %>
+</p>
 
-<% form_for(@map) do |f| %>  
-  <p>
-    <%= link_to 'Back to Maps index', maps_path %>
-    <%= f.hidden_field :published, :value => 1 %>
-    <%= f.submit 'Publish Map' %>
-  </p>
-<% end %>
+<h2>Live Terrain Editor</h2>
+
+<%= render :partial => "map_editor", :locals => { :map => @map } %>
+
+<div class="grid_12">
+  <% form_for(@map) do |f| %>  
+    <p>
+      <%= link_to 'Back to Maps index', maps_path %>
+      <%= f.hidden_field :published, :value => 1 %>
+      <%= f.submit 'Publish Map' %>
+    </p>
+  <% end %>
+</div>

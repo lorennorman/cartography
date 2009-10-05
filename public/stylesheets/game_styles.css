@@ -2,9 +2,22 @@
   position:absolute;
 }
 
-.tile {
-  position:absolute;
-  display:inline;
-  width:100px;
-  height:100px;
+.tile:hover {
+  border:solid;
+  border-width: 2px;
+  border-color: blue;
+  margin:-2px;
+}
+
+#terrain_palette {
+  background-color:gray;
+}
+
+.terrain_brush:hover {
+  background-color:yellow;
+  border:solid;
+}
+
+.terrain_brush .label {
+  margin:0px;
 }

@@ -5,10 +5,10 @@
     <%= javascript_include_tag "jquery-1.3.2.min.js" %>
     <%= yield(:javascript) %>
     
-    <%= stylesheet_link_tag "site_styles" %>
+    <%= stylesheet_link_tag :all %>
     <%= yield(:styles) %>
   </head>
-  <body>
+  <body class="container_16">
     <%= yield(:layout) %>
   </body>
 </html>
