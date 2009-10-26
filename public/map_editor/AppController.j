@@ -7,7 +7,7 @@
  */
 
 @import <Foundation/CPObject.j>
-@import "TerrainPaletteView.j"
+@import "TerrainPalettePanel.j"
 /*@import "MapView.j"*/
 
 @implementation AppController : CPObject
@@ -25,25 +25,10 @@
   // Make this window the front window
   [theWindow orderFront:self];
   
-  // Convenience variable for creating children
-  var viewFrame = [contentView frame];
+  // Create a TerrainPalettePanel
+  [[[TerrainPalettePanel alloc] init] orderFront:nil];
   
-  // Create a TerrainPaletteView positioned against the right border of the contentView
-  var terrainPaletteView = [[TerrainPaletteView alloc]
-                            initWithFrame:CGRectMake(
-                                                      CGRectGetWidth(viewFrame) - [TerrainPaletteView width],
-                                                      0,
-                                                      [TerrainPaletteView width],
-                                                      CGRectGetHeight(viewFrame)
-                                                    )
-                           ];
-  // Allow it to resize vertically and stick to the right border
-  [terrainPaletteView setAutoresizingMask: CPViewHeightSizable | CPViewMinXMargin];
-  // Add it to the view
-  [contentView addSubview:terrainPaletteView];
-  
-  // Create a MapView maximized in the remaining space against the left border
-  
+  // Create a MapView maximized and centered  
 }
 
 @end

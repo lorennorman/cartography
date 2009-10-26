@@ -14,4 +14,8 @@ class TerrainType < ActiveRecord::Base
       }
     end
   end
+  
+  def image_url
+    self.image.url(:full)
+  end
 end

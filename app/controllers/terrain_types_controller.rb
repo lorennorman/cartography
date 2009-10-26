@@ -7,6 +7,7 @@ class TerrainTypesController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @terrain_types }
+      format.json { render :json => @terrain_types.to_json(:only => [:id, :name], :methods => :image_url) }
     end
   end
 
