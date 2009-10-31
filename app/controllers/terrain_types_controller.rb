@@ -2,7 +2,9 @@ class TerrainTypesController < ApplicationController
   # GET /terrain_types
   # GET /terrain_types.xml
   def index
-    @terrain_types = TerrainType.all
+    @terrain_types = TerrainType.find(:all, :conditions => ["name LIKE :name_filter", 
+                                                            {:name_filter => "%#{params[:name_filter]}%"}
+                                                           ])
 
     respond_to do |format|
       format.html # index.html.erb

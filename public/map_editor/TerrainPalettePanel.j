@@ -4,6 +4,8 @@
 @implementation TerrainPalettePanel : CPPanel
 {
   CPCollectionView _terrainTypesView;
+  CPButton _refreshButton;
+  CPTextField _filterTextField;
 }
 
 // The width of the palette is always the same (is this right? if so is this the right way to do this?)
@@ -21,10 +23,35 @@
   {
     [self setTitle:"Terrain Picker"]; 
     [self setFloatingPanel:YES]; 
-    //[self setBackgroundColor:[CPColor blackColor]];
     
     var contentView = [self contentView],
         bounds = [contentView bounds];
+    
+    // Create the Refresh button
+    _refreshButton = [CPButton buttonWithTitle:"Refresh"];
+    
+    // Position the Refresh button right-aligned
+    var rbOrigin = CPMakePoint(bounds.size.width - [_refreshButton bounds].size.width - 10, 10);
+    [_refreshButton setFrameOrigin:rbOrigin];
+    [_refreshButton setAutoresizingMask:CPViewMinXMargin]
+    
+    // Set the Refresh button's action to call the server-update function
+    [_refreshButton setTarget:self];
+    [_refreshButton setAction:@selector(requestTerrainTypes:)]; 
+    
+    // Add the Refresh button
+    [contentView addSubview:_refreshButton];
+    
+    // Create the Filter field
+    _filterTextField = [CPTextField textFieldWithStringValue:"" 
+                                    placeholder:"Search Filter" 
+                                    width:bounds.size.width - [_refreshButton bounds].size.width - 20];
+    
+    // Position the Filter field full width from left bound to Refresh button
+    [_filterTextField setFrameOrigin:CPMakePoint(10, 8)];
+    [_filterTextField setAutoresizingMask:CPViewWidthSizable];
+    // Add the Filter field
+    [contentView addSubview:_filterTextField];
     
     // Initialize the CollectionView and its layout
     _terrainTypesView = [[CPCollectionView alloc] initWithFrame:bounds];
@@ -39,7 +66,10 @@
     [_terrainTypesView setItemPrototype:itemPrototype];
     
     // Create a ScrollView to embed our CollectionView in for vertical scrolling
-    var scrollView = [[CPScrollView alloc] initWithFrame:bounds];
+    var paletteBounds = CGRectInset(bounds, 0, 20);
+    paletteBounds.origin.y += 30;
+    paletteBounds.size.height -= 30;
+    var scrollView = [[CPScrollView alloc] initWithFrame:paletteBounds];
     
     [scrollView setDocumentView:_terrainTypesView];
     [scrollView setAutoresizingMask:CPViewWidthSizable | CPViewHeightSizable];
@@ -49,16 +79,27 @@
     [contentView addSubview:scrollView];
     
     // Ask the server for the actual TerrainTypes
-    [self requestTerrainTypes];
+    [self requestTerrainTypes:nil];
   }
   
   return self;
 }
 
--(void)requestTerrainTypes
+-(void)requestTerrainTypes:(id)aSender
 {
+  // Build our request URL with the appropriate parameters
+  var params = "?";
+  var paramsObject = {
+    "name_filter":[_filterTextField objectValue]
+  };
+  for (param in paramsObject) {
+    params += param + "=" + paramsObject[param] + "&";
+  }
+  
+  var requestURL = '/terrain_types.json' + params;
+  
   // Set up our request to the terrain_types index action
-  var request = [CPURLRequest requestWithURL:'/terrain_types.json'];
+  var request = [CPURLRequest requestWithURL:requestURL];
   
   // Fire off the request! This object will handle the response.
   [CPURLConnection connectionWithRequest:request delegate:self];
