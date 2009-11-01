@@ -108,7 +108,7 @@
 - (void)connection:(CPURLConnection)aConnection didReceiveData:(CPString)data
 {
   // Parse the response JSON into a data object
-  var terrainBrushData = CPJSObjectCreateWithJSON(data);
+  var terrainBrushData = JSON.parse(data);
   
   // Seed the CollectionView with the data object
   [_terrainTypesView setContent:terrainBrushData];

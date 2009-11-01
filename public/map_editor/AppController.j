@@ -16,6 +16,8 @@
 
 - (void)applicationDidFinishLaunching:(CPNotification)aNotification
 {
+  // Elect for a Logger
+  CPLogRegister(CPLogConsole);
   // Top-level window creation, full browser dimensions
   var theWindow = [[CPWindow alloc] initWithContentRect:CGRectMakeZero() styleMask:CPBorderlessBridgeWindowMask];
   // Extract the contentView of the top-level window
