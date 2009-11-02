@@ -8,10 +8,11 @@
 
 @import <Foundation/CPObject.j>
 @import "TerrainPalettePanel.j"
-/*@import "MapView.j"*/
+@import "MapView.j"
 
 @implementation AppController : CPObject
 {
+  MapView _mapView;
 }
 
 - (void)applicationDidFinishLaunching:(CPNotification)aNotification
@@ -29,8 +30,35 @@
   
   // Create a TerrainPalettePanel
   [[[TerrainPalettePanel alloc] init] orderFront:nil];
+    
+  // Create a MapView with this MapModel as the main window
+  _mapView = [[MapView alloc] initWithFrame:[contentView frame]];
+  [contentView addSubview:_mapView];
   
-  // Create a MapView maximized and centered  
+  // Pull a MapModel from the database
+  //var thisMapModel = [MapModel findById:4];
+  // Set up our request to the terrain_types index action
+  var request = [CPURLRequest requestWithURL:"/maps/4.json"];
+  
+  // Fire off the request! This object will handle the response.
+  [CPURLConnection connectionWithRequest:request delegate:self];
+  // Menubar for new, load, save Maps...
+  
+}
+
+- (void)connection:(CPURLConnection)aConnection didReceiveData:(CPString)data
+{
+  // Parse the response JSON into a data object
+  var thisMapModel = [[MapModel alloc] initWithMapModelJSONData:data];
+  
+  // Seed the CollectionView with the data object
+  [_mapView setMapModel:thisMapModel];
+}
+
+- (void)connection:(CPURLConnection)aConnection didFailWithError:(CPError)anError
+{
+  CPLogConsole("Error!", "error", "Connection");
+  CPLogConsole(anError, "error", "Connection");
 }
 
 @end

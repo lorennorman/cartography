@@ -48,4 +48,15 @@ class Map < ActiveRecord::Base
       end
     end
   end
+  
+  def unique_terrain
+    unique_ids = self.terrain.flatten.uniq
+    unique_ids.map do |terrain_type_id|
+      TerrainType.find(terrain_type_id)
+    end.to_json(:only => [:id, :name], :methods => :image_url)
+  end
+  
+  def flat_terrain
+    self.terrain.flatten
+  end
 end

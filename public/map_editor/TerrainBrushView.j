@@ -19,7 +19,7 @@
     
     _labelView = [[CPTextField alloc] initWithFrame:frame];
     [_labelView setEditable:NO];
-    [_labelView setTextColor:[CPColor whiteColor]];
+    [_labelView setTextColor:[CPColor grayColor]];
     [_labelView setAutoresizingMask:CPViewMaxXMargin]
     
     [self addSubview:_labelView];
@@ -32,7 +32,7 @@
   // Initialize our image if needed
   if(!_imageView)
   {
-    var frame = [self bounds];
+    var frame = CGRectInset([self bounds], 5, 5);
     frame.size.height -= 20;
     _imageView = [[CPImageView alloc] initWithFrame:frame];
     [_imageView setImageScaling:CPScaleProportionally];
@@ -48,7 +48,7 @@
 
 - (void)setSelected:(BOOL)isSelected 
 { 
-  [self setBackgroundColor:isSelected ? [CPColor grayColor] : nil]; 
+  [self setBackgroundColor:isSelected ? [CPColor yellowColor] : nil]; 
 } 
 
 @end 

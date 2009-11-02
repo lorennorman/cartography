@@ -16,7 +16,7 @@
 
 - (id)init
 {
-  self = [super initWithContentRect:CGRectMake(50.0, 50.0, 300.0, 400.0)
+  self = [super initWithContentRect:CGRectMake(800.0, 50.0, 300.0, 400.0)
                 styleMask: CPHUDBackgroundWindowMask | CPResizableWindowMask];
   
   if (self)
@@ -54,7 +54,7 @@
     [contentView addSubview:_filterTextField];
     
     // Initialize the CollectionView and its layout
-    _terrainTypesView = [[CPCollectionView alloc] initWithFrame:bounds];
+    _terrainTypesView = [[CPCollectionView alloc] initWithFrame:CGRectInset(bounds, 10, 0)];
     [_terrainTypesView setAutoresizingMask:CPViewWidthSizable];
     [_terrainTypesView setMinItemSize:CGSizeMake(100, 120)];
     [_terrainTypesView setMaxItemSize:CGSizeMake(100, 120)];
@@ -87,6 +87,9 @@
 
 -(void)requestTerrainTypes:(id)aSender
 {
+  // Clear the terrain palette so we know something is happening
+  [_terrainTypesView setContent:[]];
+  
   // Build our request URL with the appropriate parameters
   var params = "?";
   var paramsObject = {

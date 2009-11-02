@@ -18,4 +18,8 @@ class TerrainType < ActiveRecord::Base
   def image_url
     self.image.url(:full)
   end
+  
+  def json_options
+    self.to_json(:only => [:id, :name], :methods => :image_url)
+  end
 end
