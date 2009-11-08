@@ -42,8 +42,9 @@
   
   // Fire off the request! This object will handle the response.
   [CPURLConnection connectionWithRequest:request delegate:self];
-  // Menubar for new, load, save Maps...
   
+  
+  // TODO: Menubar for new, load, save Maps...
 }
 
 - (void)connection:(CPURLConnection)aConnection didReceiveData:(CPString)data

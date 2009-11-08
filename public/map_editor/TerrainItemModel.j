@@ -9,24 +9,22 @@ var AvailableTerrainModels = [CPArray alloc];
   CPString _image_url;
 }
 
-+ (id)findById:(int)uid
++ (id)findById:(CPString)uid
 {
-  return [AvailableTerrainModels valueForKey:uid];
+  return AvailableTerrainModels[uid];
 }
 
 + (void)setAvailableTerrainModels:(CPArray)terrainModelArray
 {  
-  for (terrainItemModelObject in terrainModelArray)
-  {
-    [AvailableTerrainModels setValue:[[TerrainItemModel alloc] initWithTerrainItemModelDataObject:terrainItemModelObject] forKey:terrainItemModelObject.id];
-  }
-}
-
-- (id)initWithTerrainItemModelDataJSON:(CPObject)dataJSON
-{
-  var dataObject = JSON.parse(dataJSON);
+  //CPLogConsole("setAvailableTerrainModels: entering", "info", "TerrainItemModel");
   
-  [self initWithTerrainItemModelDataObject:dataObject];
+  for(var index=0;index<terrainModelArray.length;index++)
+  {
+    //CPLogConsole("setAvaialbeTerrainModels iteration: "+terrainModelArray[index], "info", "TerrainItemModel");
+    var modelObject = terrainModelArray[index];
+    AvailableTerrainModels[modelObject.id] = [[TerrainItemModel alloc] initWithTerrainItemModelDataObject:modelObject];
+  }
+  //CPLogConsole("setAvailableTerrainModels: exiting", "info", "TerrainItemModel");
 }
 
 - (id)initWithTerrainItemModelDataObject:(CPObject)dataObject

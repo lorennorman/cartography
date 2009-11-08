@@ -4,9 +4,6 @@
 var TILE_PIXEL_WIDTH = 100;
 var TILE_PIXEL_HEIGHT = 100;
 
-// Default MapModelDataObject
-var defaultMapDataJSON = '{  \"name\":\"The Briney Depths\",  \"width\":5,  \"height\":6,  \"terrain\":[1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3],  \"nothing\":\"nothing\" }';
-
 @implementation MapModel : CPObject
 {
   CPString _name;
@@ -15,16 +12,13 @@ var defaultMapDataJSON = '{  \"name\":\"The Briney Depths\",  \"width\":5,  \"he
   CPArray _terrain;
 }
 
-+ (id)findById:(int)uid
-{
-  return [[MapModel alloc] initWithMapModelDataJSON:defaultMapDataJSON];
-}
-
 - (id)initWithMapModelJSONData:(CPObject)dataJSON
 {
   self = [super init];
   
   var dataObject = JSON.parse(dataJSON);
+  
+  //CPLogConsole("dataObject.unique_terrain[0].image_url: "+JSON.parse(dataObject.unique_terrain), "info", "MapModel");
   
   if (self)
   {
@@ -34,7 +28,7 @@ var defaultMapDataJSON = '{  \"name\":\"The Briney Depths\",  \"width\":5,  \"he
     _terrain = dataObject.flat_terrain;
     
     // Now offload the unique_terrain hash into our TerrainItemResourceManager
-    [TerrainItemModel setAvailableTerrainModels:[CPArray arrayWithArray:dataObject.unique_terrain]];
+    [TerrainItemModel setAvailableTerrainModels:[CPArray arrayWithArray:JSON.parse(dataObject.unique_terrain)]];
     // so our terrainItemModels() accessors can pull from the cache
   }
   
@@ -45,12 +39,13 @@ var defaultMapDataJSON = '{  \"name\":\"The Briney Depths\",  \"width\":5,  \"he
 {
   var terrainItemModels = [];
   // Map the _terrain array to an array of TerrainItemModels of the corresponding id
-  for (terrainItemId in _terrain)
+  for(var index=0;index<_terrain.length;index++)
   {
-    terrainItemModels.push([TerrainItemModel findById:terrainItemId]);
+    //CPLogConsole("terrainItemModels index: "+index+" terrain[index]: "+_terrain[index], "info", "MapModel");
+    terrainItemModels.push([TerrainItemModel findById:_terrain[index]]);
   }
   
-  return [CPArray arrayWithArray:terrainItemModels];
+  return terrainItemModels;
 }
 
 - (int)pixelWidth
