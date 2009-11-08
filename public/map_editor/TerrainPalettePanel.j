@@ -113,8 +113,18 @@
   // Parse the response JSON into a data object
   var terrainBrushData = JSON.parse(data);
   
+  // Add these terrain models to the cache
+  [TerrainItemModel setAvailableTerrainModels:terrainBrushData];
+  
+  var terrainItemModelArray = [];
+  
+  for(var index=0;index < terrainBrushData.length; index++)
+  {
+    terrainItemModelArray.push([TerrainItemModel findById:terrainBrushData[index].id]);
+  }
+  
   // Seed the CollectionView with the data object
-  [_terrainTypesView setContent:terrainBrushData];
+  [_terrainTypesView setContent:terrainItemModelArray];
 }
 
 - (void)connection:(CPURLConnection)aConnection didFailWithError:(CPError)anError

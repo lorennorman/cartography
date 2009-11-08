@@ -1,11 +1,3 @@
-/*
- * AppController.j
- * temp
- *
- * Created by You on October 25, 2009.
- * Copyright 2009, Your Company All rights reserved.
- */
-
 @import <Foundation/CPObject.j>
 @import "TerrainPalettePanel.j"
 @import "MapView.j"
@@ -32,8 +24,15 @@
   [[[TerrainPalettePanel alloc] init] orderFront:nil];
     
   // Create a MapView with this MapModel as the main window
-  _mapView = [[MapView alloc] initWithFrame:[contentView frame]];
-  [contentView addSubview:_mapView];
+  _mapView = [[MapView alloc] init];
+  
+  // Configure our ScrollView (ourself) to view the map
+  var mapScrollView = [[CPScrollView alloc] initWithFrame:[contentView frame]];
+  [mapScrollView setDocumentView:_mapView];
+  [mapScrollView setAutoresizingMask:CPViewWidthSizable | CPViewHeightSizable];
+  [mapScrollView setAutohidesScrollers:YES];
+  
+  [contentView addSubview:mapScrollView];
   
   // Pull a MapModel from the database
   //var thisMapModel = [MapModel findById:4];
@@ -42,7 +41,6 @@
   
   // Fire off the request! This object will handle the response.
   [CPURLConnection connectionWithRequest:request delegate:self];
-  
   
   // TODO: Menubar for new, load, save Maps...
 }

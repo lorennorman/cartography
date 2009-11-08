@@ -46,4 +46,14 @@ var AvailableTerrainModels = [CPArray alloc];
   return _image_url;
 }
 
+- (CPString)name
+{
+  return _name;
+}
+
+- (CPString)id
+{
+  return _id;
+}
+
 @end

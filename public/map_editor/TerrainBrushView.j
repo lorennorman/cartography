@@ -4,6 +4,7 @@
 {
   CPImageView _imageView;
   CPTextField _labelView;
+  TerrainItemModel _representedTerrainItemModel;
 }
 
 // The data object has 3 elements:
@@ -12,6 +13,8 @@
 //  image_url: string with the image path on the server
 - (void)setRepresentedObject:(id)anObject
 {
+  _representedTerrainItemModel = anObject;
+  
   // Initialize our label if needed
   if(!_labelView)
   {
@@ -26,7 +29,7 @@
   }
   
   // Update the label text with the name
-  [_labelView setStringValue:anObject.name];
+  [_labelView setStringValue:[_representedTerrainItemModel name]];
   [_labelView sizeToFit];
   
   // Initialize our image if needed
@@ -42,13 +45,14 @@
   }
   
   // Create a new image to add to our ImageView
-  var newImage = [[CPImage alloc] initWithContentsOfFile:anObject.image_url size:CGSizeMake(100.0,100.0)];
+  var newImage = [[CPImage alloc] initWithContentsOfFile:[_representedTerrainItemModel image_url] size:CGSizeMake(100.0,100.0)];
   [_imageView setImage:newImage];
 }
 
 - (void)setSelected:(BOOL)isSelected 
 { 
-  [self setBackgroundColor:isSelected ? [CPColor yellowColor] : nil]; 
+  [self setBackgroundColor:isSelected ? [CPColor yellowColor] : nil];
+  [TerrainItemView setSelectedObject:_representedTerrainItemModel];
 } 
 
 @end 

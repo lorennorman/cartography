@@ -48,6 +48,16 @@ var TILE_PIXEL_HEIGHT = 100;
   return terrainItemModels;
 }
 
+- (int)width
+{
+  return _width;
+}
+
+- (int)height
+{
+  return _height;
+}
+
 - (int)pixelWidth
 {
   return _width * TILE_PIXEL_WIDTH;
