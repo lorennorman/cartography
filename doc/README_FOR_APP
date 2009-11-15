@@ -1,2 +1,29 @@
-Use this README file to introduce your application and point to useful places in the API for learning more.
-Run "rake doc:app" to generate API documentation for your models, controllers, helpers, and libraries.
+Cappuccino Setup
+(inspired by: http://www.icoretech.org/2009/10/installing-cappuccino-from-source/ and http://www.icoretech.org/2009/10/creating-a-cappuccino-application-with-capp/)
+
+First, we need to tell the Cappuccino build script where to put the output. Edit your ~/.bash_profile (or appropriate dotfile) to contain a CAPP_BUILD property pointing to where you want Cappuccino to build:
+export CAPP_BUILD="/wherever/you/want/cappuccino_framework"
+
+Now clone the Cappuccino source from Github (to a different location from CAPP_BUILD):
+$> git clone git://github.com/280north/cappuccino.git /wherever/you/want/cappuccino_source
+
+Now let's tell this Rails app know where the source is. Copy config/cappuccino.yml.sample to config/cappuccino.yml if you haven't already. Open config/cappuccino.yml and change the property for cappuccino_source:
+cappuccino_source: "/wherever/you/put/cappuccino_source"
+
+Ok, now our Rake tasks can update your code from Github and recompile it from source. Let's test this to make sure it's working (compilation takes awhile and needs your sudo password):
+$> rake cappuccino:update
+
+Now you should have the latest version of Cappuccino (edge) downloaded, compiled from source and installed. Let's use one more rake command to symlink the compiled libraries into our app:
+$> rake cappuccino:symlink
+
+Now whenever you want to pull down that cool new feature in Edge Cappuccino, all you have to do is run a rake cappuccino:update!
+
+Notes/Smells
+- the app should really by 'just working' out of the box, honestly
+- public/map_editor/Frameworks is .gitignore'd (this is where the symlinks are, system dependent)
+- have to set up Cappuccino on a production box? yuck
+- how to go about automatic tracking of Cappuccino? 
+  - check the whole thing in? probably should use a more generic location (instead of under public/map_editor/)
+  - some kind of git external style thing? still needs compilation... (i think)
+  - wish the built-in rails gem management system could work for this
+- Cappuccino is changing all the time, so symlinking to a changing source directory is nice, may become more stable later.

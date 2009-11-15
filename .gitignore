@@ -8,4 +8,6 @@ tmp/**/*
 doc/api
 doc/app
 config/database.yml
+config/cappuccino.yml
 public/system/**/*
+public/map_editor/Frameworks/*
