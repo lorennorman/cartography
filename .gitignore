@@ -7,6 +7,7 @@ tmp/**/*
 .DS_Store
 doc/api
 doc/app
+doc/cappuccino
 config/database.yml
 config/cappuccino.yml
 public/system/**/*

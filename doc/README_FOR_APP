@@ -10,20 +10,34 @@ $> git clone git://github.com/280north/cappuccino.git /wherever/you/want/cappucc
 Now let's tell this Rails app know where the source is. Copy config/cappuccino.yml.sample to config/cappuccino.yml if you haven't already. Open config/cappuccino.yml and change the property for cappuccino_source:
 cappuccino_source: "/wherever/you/put/cappuccino_source"
 
-Ok, now our Rake tasks can update your code from Github and recompile it from source. Let's test this to make sure it's working (compilation takes awhile and needs your sudo password):
+Optional but recommended: The online documentation is out of sync with edge Cappuccino. If you're making use of classes or methods that don't exist in the stable release, then you're going to need to generate your own documentation in order to browse the API. Requirements:
+- XCode 3.1.2
+- MacPorts
+- Doxygen: 
+$> sudo port install doxygen
+
+If you skip this step, then rake cappuccino:doc:build will fail, which will cause cappuccino:update to throw an error when it tries to build the docs (the compile should work anyway, though.)
+
+Ok, now our Rake tasks can pull the latest code from Github, recompile it from source, and generate the documentation from that source. Let's test this to make sure it's working (compilation takes awhile and requires sudo access near the end):
 $> rake cappuccino:update
 
 Now you should have the latest version of Cappuccino (edge) downloaded, compiled from source and installed. Let's use one more rake command to symlink the compiled libraries into our app:
 $> rake cappuccino:symlink
 
-Now whenever you want to pull down that cool new feature in Edge Cappuccino, all you have to do is run a rake cappuccino:update!
+And, if you installed Doxygen and built the documentation, you'll want to symlink the Cappuccino docs into the app as well:
+$> rake cappuccino:doc:symlink
+(docs are now at doc/cappuccino/index.html)
+
+Now whenever you want to pull down that cool new feature in Edge Cappuccino, all you have to do is run:
+$> rake cappuccino:update
+...and the code and docs will be up to date!
 
 Notes/Smells
-- the app should really by 'just working' out of the box, honestly
-- public/map_editor/Frameworks is .gitignore'd (this is where the symlinks are, system dependent)
-- have to set up Cappuccino on a production box? yuck
+- the app should really be 'just working' out of the box, honestly, these are just js files after all!
+- public/map_editor/Frameworks is .gitignore'd (this is where the framework symlinks go)
+- have to set up Cappuccino like this on a production box? yuck
 - how to go about automatic tracking of Cappuccino? 
   - check the whole thing in? probably should use a more generic location (instead of under public/map_editor/)
   - some kind of git external style thing? still needs compilation... (i think)
   - wish the built-in rails gem management system could work for this
-- Cappuccino is changing all the time, so symlinking to a changing source directory is nice, may become more stable later.
+- Cappuccino is changing all the time, so symlinking to a changing source directory is nice, may become more stable later (and amenable to checking-in) later.
