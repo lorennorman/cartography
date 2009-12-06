@@ -24,15 +24,16 @@ var SelectedTerrainItemModel = nil;
   // Initialize our image if needed
   if(!_imageView)
   {
-    _imageView = [[CPImageView alloc] initWithFrame:CGRectMake(0,0,100,100)];
+    _imageView = [[CPImageView alloc] initWithFrame:CGRectMake(0,0,TILE_WIDTH,TILE_HEIGHT)];
     [_imageView setImageScaling:CPScaleProportionally];
     
     [self addSubview:_imageView];
   }
   
   // Create a new image to add to our ImageView
-  var newImage = [[CPImage alloc] initWithContentsOfFile:[_terrainItemModel image_url] size:CGSizeMake(100.0,100.0)];
+  var newImage = [[CPImage alloc] initWithContentsOfFile:[_terrainItemModel image_url] size:CGSizeMake(TILE_WIDTH,TILE_HEIGHT)];
   [_imageView setImage:newImage];
+
 }
 
 - (void)setSelected:(BOOL)isSelected 

@@ -15,16 +15,12 @@ var AvailableTerrainModels = [CPArray alloc];
 }
 
 + (void)setAvailableTerrainModels:(CPArray)terrainModelArray
-{  
-  //CPLogConsole("setAvailableTerrainModels: entering", "info", "TerrainItemModel");
-  
+{
   for(var index=0;index<terrainModelArray.length;index++)
   {
-    //CPLogConsole("setAvaialbeTerrainModels iteration: "+terrainModelArray[index], "info", "TerrainItemModel");
     var modelObject = terrainModelArray[index];
     AvailableTerrainModels[modelObject.id] = [[TerrainItemModel alloc] initWithTerrainItemModelDataObject:modelObject];
   }
-  //CPLogConsole("setAvailableTerrainModels: exiting", "info", "TerrainItemModel");
 }
 
 - (id)initWithTerrainItemModelDataObject:(CPObject)dataObject

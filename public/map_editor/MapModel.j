@@ -1,9 +1,6 @@
 @import <Foundation/CPObject.j>
 @import "TerrainItemModel.j"
 
-var TILE_PIXEL_WIDTH = 100;
-var TILE_PIXEL_HEIGHT = 100;
-
 @implementation MapModel : CPObject
 {
   CPString _name;
@@ -35,17 +32,23 @@ var TILE_PIXEL_HEIGHT = 100;
   return self;
 }
 
-- (CPArray)terrainItemModels
+- (CPArray)terrainItemRows
 {
-  var terrainItemModels = [];
-  // Map the _terrain array to an array of TerrainItemModels of the corresponding id
-  for(var index=0;index<_terrain.length;index++)
+  // Map our flat terrain array to 2D array
+  var terrainItemRows = [];
+  // Iterate on the vertical axis first because we're adding rows
+  for(var yCoord = 0; yCoord < _height; yCoord++)
   {
-    //CPLogConsole("terrainItemModels index: "+index+" terrain[index]: "+_terrain[index], "info", "MapModel");
-    terrainItemModels.push([TerrainItemModel findById:_terrain[index]]);
+    var tiRow = [];
+    // Now iterate down the row and build it up
+    for(var xCoord = 0; xCoord < _width; xCoord++)
+    {
+      tiRow.push([TerrainItemModel findById:_terrain[yCoord*_width + xCoord]]);
+    }
+    terrainItemRows.push(tiRow);
   }
   
-  return terrainItemModels;
+  return terrainItemRows;
 }
 
 - (int)width
@@ -56,14 +59,4 @@ var TILE_PIXEL_HEIGHT = 100;
 - (int)height
 {
   return _height;
-}
-
-- (int)pixelWidth
-{
-  return _width * TILE_PIXEL_WIDTH;
-}
-
-- (int)pixelHeight
-{
-  return _height * TILE_PIXEL_HEIGHT;
 }
